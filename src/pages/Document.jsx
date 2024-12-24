@@ -5,6 +5,7 @@ import Navbar from '../components/document/Navbar'
 import axios from 'axios'
 import { useRecoilState } from 'recoil'
 import userState from '../atoms/userStateAtom'
+import { toast } from 'react-toastify'
 
 function Document() {
     
@@ -13,7 +14,8 @@ function Document() {
 
     const [documentName, setDocumentName] = useState("")
     const [isUserLoggedIn, setIsUserLoggedIn] = useRecoilState(userState)
-    
+    const [userType, setUserType] = useState("none")
+
     const navigate = useNavigate()
 
     const setName = async () => {
@@ -25,6 +27,22 @@ function Document() {
         setDocumentName(data['title']);
     }
 
+    const getUserType = async () => {
+        const response = await axios.get(`http://localhost:5000/document/userType?documentId=${documentId}`, {withCredentials:true})
+        const data = await response.data
+        console.log(data['message'])
+        console.log(data)
+        if(data['status'] === 'success'){
+            toast.info(data['userType'])
+            setUserType(data['userType'])
+            console.log(userType)
+        } else {
+            if(userType === 'none'){
+                navigate("/")
+            }
+        }
+    }
+
     useEffect(()=>{
         if(!isUserLoggedIn){
             navigate('/')
@@ -34,6 +52,10 @@ function Document() {
     useEffect(()=>{
         setName()
     },[documentName])
+
+    useEffect(()=>{
+        getUserType()
+    })
 
     
 
