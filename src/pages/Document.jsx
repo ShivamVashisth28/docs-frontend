@@ -5,7 +5,7 @@ import Navbar from '../components/document/Navbar'
 import axios from 'axios'
 import { useRecoilState } from 'recoil'
 import userState from '../atoms/userStateAtom'
-import { toast } from 'react-toastify'
+
 
 function Document() {
     
@@ -33,7 +33,7 @@ function Document() {
         console.log(data['message'])
         console.log(data)
         if(data['status'] === 'success'){
-            toast.info(data['userType'])
+            
             setUserType(data['userType'])
             console.log(userType)
         } else {

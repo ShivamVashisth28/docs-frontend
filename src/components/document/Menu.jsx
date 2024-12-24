@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
@@ -11,8 +11,13 @@ function Menu({setDocumentName}) {
 
     const [openRenameWindow, setOpenRenameWindow] = useState(false)
     const [openDeleteWindow, setOpenDeleteWindow] = useState(false)
+    const [openShareWindow, setOpenShareWindow] = useState(false)
 
     const [newTitle, setNewTitle] = useState("")
+
+    const [inviteCode, setInviteCode] = useState("")
+    const [shareLinkType, setShareLinkType] = useState("viewer")
+    const [inviteLink, setInviteLink] = useState("")
 
     const handleOnRenameClose = ()=>{
         setNewTitle("")
@@ -28,8 +33,22 @@ function Menu({setDocumentName}) {
 
     const handleRenameClick = ()=>{
         setNewTitle("")
+        setOpenDeleteWindow(false)
+        setOpenShareWindow(false)
         setOpenRenameWindow(prev => !prev)
     }   
+
+    const handleDeleteClick = () => {
+        setOpenDeleteWindow(prev => !prev)
+        setOpenShareWindow(false)
+        setOpenRenameWindow(false)
+    }
+
+    const handleShareClick = () => {
+        setOpenDeleteWindow(false)
+        setOpenShareWindow(prev => !prev)
+        setOpenRenameWindow(false)
+    }
 
     const renameDocument = async () => {
         const resposne = await axios.post(`http://localhost:5000/document/rename?documentId=${documentId}`, {
@@ -44,7 +63,6 @@ function Menu({setDocumentName}) {
         }
     }
 
-
     const deleteDocument = async () => {
         const response = await axios.delete(`http://localhost:5000/document/delete?documentId=${documentId}`, {withCredentials: true})
         const data = response.data
@@ -58,9 +76,35 @@ function Menu({setDocumentName}) {
         
     }
 
-    const shareDocument = () => {
-        // backend call
+    const getInviteLink = async () => {
+        const response = await axios.get(`http://localhost:5000/document/inviteCode?documentId=${documentId}&accessType=${shareLinkType}`, {withCredentials:true})
+        const data = await response.data
+
+        if(data['status'] != 'success'){
+            toast.error(data['message'])
+        }
+        else{
+            setInviteCode(data['inviteCode'])
+        }
+        console.log(data)
+
     }
+
+    const setFinalInviteLink = () =>{
+        const link = `http://localhost:5173/invite/${documentId}/${inviteCode}`
+        setInviteLink(link)
+    }
+
+    const copyLinkToClipboard = async () => {
+        await navigator.clipboard.writeText(inviteLink)
+        toast.info("Copied Linked to Clipboard!!")
+    }
+
+    useEffect(()=>{
+        getInviteLink()
+        setFinalInviteLink()
+    },[shareLinkType])
+
     return (
     <div>
         <div className='text-blue-600 text-3xl font-bold cursor-pointer' onClick={()=>setIsOpen(prev=>!prev)}>
@@ -78,14 +122,14 @@ function Menu({setDocumentName}) {
                 </div>
                 <div 
                     className='hover:bg-gray-200 cursor-pointer p-2 flex items-center gap-2 '
-                    onClick={()=>setOpenDeleteWindow(prev=>!prev)}
+                    onClick={()=>handleDeleteClick()}
                 >
                     <svg className='h-6' viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M6 5H18M9 5V5C10.5769 3.16026 13.4231 3.16026 15 5V5M9 20H15C16.1046 20 17 19.1046 17 18V9C17 8.44772 16.5523 8 16 8H8C7.44772 8 7 8.44772 7 9V18C7 19.1046 7.89543 20 9 20Z" stroke="#5b94ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
                     <div>Delete</div>
                 </div>
                 <div 
                     className='hover:bg-gray-200 cursor-pointer p-2 flex items-center gap-2 '
-                    onClick={()=> shareDocument()}    
+                    onClick={()=> handleShareClick()}    
                 >
                     <svg className='h-6' viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M13.803 5.33333C13.803 3.49238 15.3022 2 17.1515 2C19.0008 2 20.5 3.49238 20.5 5.33333C20.5 7.17428 19.0008 8.66667 17.1515 8.66667C16.2177 8.66667 15.3738 8.28596 14.7671 7.67347L10.1317 10.8295C10.1745 11.0425 10.197 11.2625 10.197 11.4872C10.197 11.9322 10.109 12.3576 9.94959 12.7464L15.0323 16.0858C15.6092 15.6161 16.3473 15.3333 17.1515 15.3333C19.0008 15.3333 20.5 16.8257 20.5 18.6667C20.5 20.5076 19.0008 22 17.1515 22C15.3022 22 13.803 20.5076 13.803 18.6667C13.803 18.1845 13.9062 17.7255 14.0917 17.3111L9.05007 13.9987C8.46196 14.5098 7.6916 14.8205 6.84848 14.8205C4.99917 14.8205 3.5 13.3281 3.5 11.4872C3.5 9.64623 4.99917 8.15385 6.84848 8.15385C7.9119 8.15385 8.85853 8.64725 9.47145 9.41518L13.9639 6.35642C13.8594 6.03359 13.803 5.6896 13.803 5.33333Z" fill="#5b94ff"></path> </g></svg>
                     <div>Share</div>
@@ -96,6 +140,44 @@ function Menu({setDocumentName}) {
                 >
                     <svg className='h-6' viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M1 6V15H6V11C6 9.89543 6.89543 9 8 9C9.10457 9 10 9.89543 10 11V15H15V6L8 0L1 6Z" fill="#5b94e1"></path> </g></svg>
                     <div>Home</div>
+                </div>
+            </div>
+        }
+
+        {
+            openShareWindow && 
+            <div className='bg-gray-300 absolute top-[21%] left-[15%] h-[20%] w-[30%] z-10'>
+                <div 
+                    className='m-2 cursor-pointer bg-gray-200/30 shadow-md'
+                    onClick={()=>navigate(`/invite/${documentId}/${inviteCode}`)} 
+                >   
+                    {inviteLink.slice(0,30) + inviteLink.slice(-20,-1) + "....."}
+                </div>
+                <div className='pl-2 pt-2 flex justify-between'>
+                    <div className='flex gap-2'>
+                        <div>Access type : </div>
+                        <div className='flex gap-2'>
+                            <div 
+                                className={` rounded-sm p-1 font-semibold hover:bg-blue-200 cursor-pointer ${shareLinkType === 'editor' ? 'shadow-lg bg-blue-300' : "bg-gray-400" }`}
+                                onClick={()=>setShareLinkType('editor')}
+                            >
+                                Editor
+                            </div>
+                            <div 
+                                className={` rounded-sm p-1 font-semibold hover:bg-blue-200 cursor-pointer ${shareLinkType === 'viewer' ? 'shadow-lg bg-blue-300' : "bg-gray-400" }`}
+                                onClick={()=>setShareLinkType('viewer')}
+                            > 
+                                Viewer
+                            </div>
+                        </div>
+                    </div>
+
+                    <div 
+                        className='mr-12 p-1 cursor-pointer bg-gray-400 rounded-sm hover:bg-blue-200 hover:shadow-md'
+                        onClick={()=>copyLinkToClipboard()}
+                    >
+                        Copy
+                    </div>
                 </div>
             </div>
         }

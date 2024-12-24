@@ -8,6 +8,7 @@ import Dashboard from './pages/Dashboard'
 import Document from './pages/Document'
 import userState from './atoms/userStateAtom'
 import { useRecoilState } from 'recoil'
+import Invites from './pages/Invites'
 
 function App() {
 
@@ -22,6 +23,7 @@ function App() {
             <Route path='/login' element={<Login />} />
             <Route path='/signup' element={<Signup />} />
             <Route path='/document/:documentId' element={<Document />} />
+            <Route path='/invite/:documentId/:inviteCode' element={<Invites />} />
             <Route path='*' element={<PageNotFound />} />
           </Routes>
       </BrowserRouter>
