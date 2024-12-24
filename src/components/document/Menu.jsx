@@ -16,7 +16,7 @@ function Menu({setDocumentName}) {
     const [newTitle, setNewTitle] = useState("")
 
     const [inviteCode, setInviteCode] = useState("")
-    const [shareLinkType, setShareLinkType] = useState("viewer")
+    const [shareLinkType, setShareLinkType] = useState("editor")
     const [inviteLink, setInviteLink] = useState("")
 
     const handleOnRenameClose = ()=>{
@@ -98,12 +98,16 @@ function Menu({setDocumentName}) {
     const copyLinkToClipboard = async () => {
         await navigator.clipboard.writeText(inviteLink)
         toast.info("Copied Linked to Clipboard!!")
+        setOpenShareWindow(false)
     }
 
-    useEffect(()=>{
-        getInviteLink()
-        setFinalInviteLink()
-    },[shareLinkType])
+    useEffect(() => {
+        getInviteLink();
+      }, [shareLinkType]);
+      
+    useEffect(() => {
+    setFinalInviteLink();
+    }, [inviteCode]);
 
     return (
     <div>

@@ -33,9 +33,9 @@ function Document() {
         console.log(data['message'])
         console.log(data)
         if(data['status'] === 'success'){
-            
+
             setUserType(data['userType'])
-            console.log(userType)
+            console.log(data)
         } else {
             if(userType === 'none'){
                 navigate("/")
