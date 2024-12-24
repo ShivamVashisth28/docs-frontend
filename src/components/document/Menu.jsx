@@ -46,7 +46,7 @@ function Menu({setDocumentName}) {
 
 
     const deleteDocument = async () => {
-        const response = await axios.delete(`http://localhost:5000/document/delete?documentId=${documentId}`)
+        const response = await axios.delete(`http://localhost:5000/document/delete?documentId=${documentId}`, {withCredentials: true})
         const data = response.data
         if(data['status'] != 'success'){
             toast.error(data['message'])
