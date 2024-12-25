@@ -1,77 +1,115 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
-import { useParams } from 'react-router-dom';
-import { toast, ToastContainer } from 'react-toastify';
+  import { useCallback, useEffect, useState } from "react"
+  import Quill from "quill"
+  import "quill/dist/quill.snow.css"
+  import { io } from "socket.io-client"
+  import { useParams } from "react-router-dom"
+  import axios from "axios"
+  import { toast } from "react-toastify"
 
-const NewEditor = ({userType}) => {
+  const TOOLBAR_OPTIONS = [
+    [{ header: [1, 2, 3, 4, 5, 6, false] }],
+    [{ font: [] }],
+    [{ list: "ordered" }, { list: "bullet" }],
+    ["bold", "italic", "underline"],
+    [{ color: [] }, { background: [] }],
+    [{ script: "sub" }, { script: "super" }],
+    [{ align: [] }],
+    ["image", "blockquote", "code-block"],
+    ["clean"],
+  ]
 
-  const [editorContent, setEditorContent] = useState('');
+  export default function NewEditor() {
+    const { documentId } = useParams()
+    const [socket, setSocket] = useState()
+    const [quill, setQuill] = useState()
 
-  const {documentId} = useParams() 
+    useEffect(() => {
+      const s = io("http://localhost:5000")
+      setSocket(s)
 
-  const handleEditorChange = (value) => {
-    setEditorContent(value);
-  };
-
-
-  const getContent = async ()=>{
-    const response = await axios.get(`http://localhost:5000/document/content?documentId=${documentId}`)
-    const data = response.data
-
-    if(data['status'] === 'success'){
-      setEditorContent(data['content'])
-    }
-  }
-
-  const saveContent = async ()=>{
-    const response = await axios.post(`http://localhost:5000/document/content?documentId=${documentId}`, {content:editorContent})
-    const data = response.data
-
-    if(data['status'] !== 'success'){
-      toast.error(data['message'])
-    }
-   
-  }
-
-  useEffect(() => {
-    const debounceTimeout = setTimeout(() => {
-      if (editorContent.trim()) {
-        saveContent(editorContent);
+      return () => {
+        s.disconnect()
       }
-    }, 500); 
+    }, [])
 
-    return () => clearTimeout(debounceTimeout);
-  }, [editorContent]);
+    useEffect(() => {
+      if (socket == null || quill == null) return
+      socket.emit("get-document", documentId)
 
-  useEffect(()=>{
-    getContent()
-  },[])
+      socket.once("load-document", document => {
+       
+        quill.setContents(JSON.parse(document))
+        quill.enable()
+      })
 
-  return (
-    <div >
-      <ReactQuill
-        value={editorContent}
-        onChange={handleEditorChange}
-        style={{ height: '40rem', width: "50rem" }}
-        readOnly={userType==="viewer"}
-        
-        modules={{
-          toolbar:  [
-            [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
-            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-            ['bold', 'italic', 'underline'],
-            ['link', 'image'],
-            [{ 'align': [] }], 
-            ['clean']
-          ] 
-        }}
-        placeholder="Write something..."
-      />
-      <ToastContainer/>
-    </div>
-  );
-};
+    }, [socket, quill, documentId])
 
-export default NewEditor;
+    const saveContent = async ()=>{
+
+      if(quill == null) return
+      const content = JSON.stringify(quill.getContents())
+      if(content == "") return
+      const response = await axios.post(`http://localhost:5000/document/content?documentId=${documentId}`, {content})
+      const data = response.data
+
+      if(data['status'] !== 'success'){
+        toast.error(data['message'])
+      }
+    }
+
+    useEffect(() => {
+      if (socket == null || quill == null) return
+
+      const interval = setInterval(() => {
+        saveContent()
+      }, 500)
+
+      return () => {
+        clearInterval(interval)
+      }
+    }, [socket, quill])
+
+
+    useEffect(() => {
+      if (socket == null || quill == null) return
+
+      const handler = delta => {
+        quill.updateContents(delta)
+      }
+      socket.on("receive-changes", handler)
+
+      return () => {
+        socket.off("receive-changes", handler)
+      }
+    }, [socket, quill])
+
+    useEffect(() => {
+      if (socket == null || quill == null) return
+
+      const handler = (delta, oldDelta, source) => {
+        if (source !== "user") return
+        socket.emit("send-changes", delta)
+      }
+      quill.on("text-change", handler)
+
+      return () => {
+        quill.off("text-change", handler)
+      }
+    }, [socket, quill])
+
+    const wrapperRef = useCallback(async wrapper => {
+      if (wrapper == null) return
+
+      wrapper.innerHTML = ""
+      const editor = document.createElement("div")
+      wrapper.append(editor)
+      const q = new Quill(editor, {
+        theme: "snow",
+        modules: { toolbar: TOOLBAR_OPTIONS },
+      })
+      q.disable()
+      q.setText("loading")
+      setQuill(q)
+    }, [])
+    return <div className="container" ref={wrapperRef}></div>
+  }

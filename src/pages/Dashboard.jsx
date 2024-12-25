@@ -42,6 +42,12 @@ function Dashboard() {
                 <DocumentCard key={index} documentId={document['documentId']} role={document['role']}/>
               ))
             }
+            {
+              documents.length === 0 && 
+                <div className='text-xl col-span-2 tracking-wide'>
+                  No documents !! Start By  Creating One ;)
+                </div>
+            }
         </div>
 
     </div>

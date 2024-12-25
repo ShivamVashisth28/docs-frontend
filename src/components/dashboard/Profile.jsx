@@ -43,7 +43,7 @@ function Profile() {
 
         </div>  
          {showProfileMenu &&
-            <div className='absolute flex cursor-default  rounded-md flex-col bg-gray-400/30 w-[15%] h-[25%] text-black  top-[8%] right-[2%] text-sm gap-2'>
+            <div className='absolute  flex cursor-default  rounded-md flex-col bg-gray-400/30 w-[14rem] h-[11rem] text-black  top-[4rem] right-[1rem] text-sm gap-2'>
                 
                 <div className='h-4/6 pl-10 pt-6 flex flex-col gap-2 '>
                     <div className='flex'>

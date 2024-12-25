@@ -41,10 +41,10 @@ function CreateNewDocument() {
         isCreateNewDialogOpen && 
         <div className='absolute h-screen w-screen bg-gray-400/70 top-0 left-0 flex justify-center items-center'>
           <div 
-            className='absolute top-[25%] bg-blue-400 h-10 w-10 rounded-full justify-center flex items-center text-2xl cursor-pointer hover:shadow-sm shadow-xl hover:scale-110 transition-all '
+            className='absolute top-[30%] bg-blue-400 h-10 w-10 rounded-full justify-center flex items-center text-2xl cursor-pointer hover:shadow-sm shadow-xl hover:scale-110 transition-all '
             onClick={()=>setIsCreateNewDialogOpen(false)}
           >X</div>
-          <div className='h-[35%] w-[20%] bg-blue-300 shadow-lg rounded-lg justify-center flex flex-col items-center'>
+          <div className='h-[25%] w-[20%] bg-blue-300 shadow-lg rounded-lg justify-center flex flex-col items-center'>
               <input 
                   type="text" 
                   autoFocus={true}
