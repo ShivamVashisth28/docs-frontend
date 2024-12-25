@@ -3,7 +3,7 @@ import axios from 'axios'
 import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
-function Menu({setDocumentName}) {
+function Menu({setDocumentName, userType}) {
     const [isOpen, setIsOpen] = useState(false)
 
     const navigate = useNavigate()
@@ -118,21 +118,21 @@ function Menu({setDocumentName}) {
         { isOpen && 
             <div className='absolute flex rounded-md flex-col bg-gray-300/30 w-[10%]  top-[8%] text-md gap-2'>
                 <div 
-                    className='hover:bg-gray-200 cursor-pointer p-2 flex items-center gap-2 ' 
+                    className={`hover:bg-gray-200 cursor-pointer p-2 items-center gap-2 ${userType==='viewer' ? 'hidden' : 'flex'} `}
                     onClick={()=>handleRenameClick()}
                 >
                     <svg className='h-6' viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M11 4H7.2C6.0799 4 5.51984 4 5.09202 4.21799C4.71569 4.40974 4.40973 4.7157 4.21799 5.09202C4 5.51985 4 6.0799 4 7.2V16.8C4 17.9201 4 18.4802 4.21799 18.908C4.40973 19.2843 4.71569 19.5903 5.09202 19.782C5.51984 20 6.0799 20 7.2 20H16.8C17.9201 20 18.4802 20 18.908 19.782C19.2843 19.5903 19.5903 19.2843 19.782 18.908C20 18.4802 20 17.9201 20 16.8V12.5M15.5 5.5L18.3284 8.32843M10.7627 10.2373L17.411 3.58902C18.192 2.80797 19.4584 2.80797 20.2394 3.58902C21.0205 4.37007 21.0205 5.6364 20.2394 6.41745L13.3774 13.2794C12.6158 14.0411 12.235 14.4219 11.8012 14.7247C11.4162 14.9936 11.0009 15.2162 10.564 15.3882C10.0717 15.582 9.54378 15.6885 8.48793 15.9016L8 16L8.04745 15.6678C8.21536 14.4925 8.29932 13.9048 8.49029 13.3561C8.65975 12.8692 8.89125 12.4063 9.17906 11.9786C9.50341 11.4966 9.92319 11.0768 10.7627 10.2373Z" stroke="#5b94ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
                     <div>Rename</div>
                 </div>
                 <div 
-                    className='hover:bg-gray-200 cursor-pointer p-2 flex items-center gap-2 '
+                    className={`hover:bg-gray-200 cursor-pointer p-2 items-center gap-2 ${userType!=='owner' ? 'hidden' : 'flex'} `}
                     onClick={()=>handleDeleteClick()}
                 >
                     <svg className='h-6' viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M6 5H18M9 5V5C10.5769 3.16026 13.4231 3.16026 15 5V5M9 20H15C16.1046 20 17 19.1046 17 18V9C17 8.44772 16.5523 8 16 8H8C7.44772 8 7 8.44772 7 9V18C7 19.1046 7.89543 20 9 20Z" stroke="#5b94ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
                     <div>Delete</div>
                 </div>
                 <div 
-                    className='hover:bg-gray-200 cursor-pointer p-2 flex items-center gap-2 '
+                    className={`hover:bg-gray-200 cursor-pointer p-2 items-center gap-2 ${userType!=='owner' ? 'hidden' : 'flex'} `}
                     onClick={()=> handleShareClick()}    
                 >
                     <svg className='h-6' viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M13.803 5.33333C13.803 3.49238 15.3022 2 17.1515 2C19.0008 2 20.5 3.49238 20.5 5.33333C20.5 7.17428 19.0008 8.66667 17.1515 8.66667C16.2177 8.66667 15.3738 8.28596 14.7671 7.67347L10.1317 10.8295C10.1745 11.0425 10.197 11.2625 10.197 11.4872C10.197 11.9322 10.109 12.3576 9.94959 12.7464L15.0323 16.0858C15.6092 15.6161 16.3473 15.3333 17.1515 15.3333C19.0008 15.3333 20.5 16.8257 20.5 18.6667C20.5 20.5076 19.0008 22 17.1515 22C15.3022 22 13.803 20.5076 13.803 18.6667C13.803 18.1845 13.9062 17.7255 14.0917 17.3111L9.05007 13.9987C8.46196 14.5098 7.6916 14.8205 6.84848 14.8205C4.99917 14.8205 3.5 13.3281 3.5 11.4872C3.5 9.64623 4.99917 8.15385 6.84848 8.15385C7.9119 8.15385 8.85853 8.64725 9.47145 9.41518L13.9639 6.35642C13.8594 6.03359 13.803 5.6896 13.803 5.33333Z" fill="#5b94ff"></path> </g></svg>
