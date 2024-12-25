@@ -47,17 +47,18 @@ function CreateNewDocument() {
           <div className='h-[35%] w-[20%] bg-blue-300 shadow-lg rounded-lg justify-center flex flex-col items-center'>
               <input 
                   type="text" 
+                  autoFocus={true}
                   placeholder='Document Title...' 
                   className='placeholder:italic placeholder:font-sans placeholder:font-light focus:outline-none rounded-md p-2'
                   value={documentName}
                   onChange={(e) => setDocumentName(e.target.value)}
                />
-              <div 
+              <button 
                   className='cursor-pointer  rounded-md p-2 mt-10 hover:bg-blue-200 bg-blue-400 shadow-xl '
                   onClick={()=>onCreate()}
               >
                 Create
-              </div>
+              </button>
           </div>
         </div>
       }

@@ -5,7 +5,7 @@ import 'react-quill/dist/quill.snow.css';
 import { useParams } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 
-const NewEditor = () => {
+const NewEditor = ({userType}) => {
 
   const [editorContent, setEditorContent] = useState('');
 
@@ -40,7 +40,7 @@ const NewEditor = () => {
       if (editorContent.trim()) {
         saveContent(editorContent);
       }
-    }, 1000); 
+    }, 500); 
 
     return () => clearTimeout(debounceTimeout);
   }, [editorContent]);
@@ -50,22 +50,22 @@ const NewEditor = () => {
   },[])
 
   return (
-    <div>
-
+    <div >
       <ReactQuill
         value={editorContent}
         onChange={handleEditorChange}
-        style={{ height: '40rem', width: "50rem", }}
+        style={{ height: '40rem', width: "50rem" }}
+        readOnly={userType==="viewer"}
         
         modules={{
-          toolbar: [
+          toolbar:  [
             [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
             [{ 'list': 'ordered'}, { 'list': 'bullet' }],
             ['bold', 'italic', 'underline'],
             ['link', 'image'],
-            [{ 'align': [] }],
+            [{ 'align': [] }], 
             ['clean']
-          ]
+          ] 
         }}
         placeholder="Write something..."
       />

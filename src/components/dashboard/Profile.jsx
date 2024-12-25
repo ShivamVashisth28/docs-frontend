@@ -39,15 +39,36 @@ function Profile() {
             className='rounded-full bg-blue-500 cursor-pointer text-white text-semibold w-12 h-12 flex justify-center items-center text-3xl shadow-lg hover:shadow-sm hover:bg-blue-400 '
             onClick={()=> setShowProfileMenu(prev => !prev)}
         >
-            { profileSymbol && userData['name'][0]}
+            { profileSymbol && userData['name'][0].toUpperCase()}
 
         </div>  
          {showProfileMenu &&
-            <div className='absolute flex justify-center items-center rounded-md flex-col bg-gray-400/30 w-[15%] h-[30%] text-black font-semibold top-[8%] right-[2%] text-sm gap-2'>
-                <div 
-                    className='p-2 bg-gray-300 w-[50%] cursor-pointer'
-                    onClick={()=> handleLogout()}
-                >Logout</div>
+            <div className='absolute flex cursor-default  rounded-md flex-col bg-gray-400/30 w-[15%] h-[25%] text-black  top-[8%] right-[2%] text-sm gap-2'>
+                
+                <div className='h-4/6 pl-10 pt-6 flex flex-col gap-2 '>
+                    <div className='flex'>
+                        <div className='pr-1'>Username :</div>
+                        <div className='font-'>{userData['username']}</div>
+                    </div>
+
+                    <div className='flex'>
+                        <div className='pr-1'>Name : </div>
+                        <div>{userData['name'][0].toUpperCase() + userData['name'].slice(1).toLowerCase()}</div>
+                    </div>
+
+                    <div className='flex italic'>
+                        <div className='truncate'>{userData['email']}</div>
+                    </div>
+                </div>
+                
+                <div className='flex justify-center'>
+                    <div 
+                        className='p-2 bg-gray-400 shadow-sm flex justify-center w-[50%] rounded-md cursor-pointer hover:shadow-lg hover:bg-blue-200'
+                        onClick={()=> handleLogout()}
+                    >
+                        Logout
+                    </div>
+                </div>
             </div>
         }
        </div>

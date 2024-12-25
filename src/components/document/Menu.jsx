@@ -19,6 +19,13 @@ function Menu({setDocumentName, userType}) {
     const [shareLinkType, setShareLinkType] = useState("editor")
     const [inviteLink, setInviteLink] = useState("")
 
+    const handleMenuClick = ()=>{
+        setIsOpen(prev=>!prev)
+        setOpenDeleteWindow(false)
+        setOpenShareWindow(false)
+        setOpenRenameWindow(false)
+    }
+
     const handleOnRenameClose = ()=>{
         setNewTitle("")
         setOpenRenameWindow(false)
@@ -111,7 +118,7 @@ function Menu({setDocumentName, userType}) {
 
     return (
     <div>
-        <div className='text-blue-600 text-3xl font-bold cursor-pointer' onClick={()=>setIsOpen(prev=>!prev)}>
+        <div className='text-blue-600 text-3xl font-bold cursor-pointer' onClick={()=>handleMenuClick()}>
             <svg className='h-10' viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#60afd7"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M4 6H20M4 12H20M4 18H20" stroke="#5b94ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
         </div>
 
