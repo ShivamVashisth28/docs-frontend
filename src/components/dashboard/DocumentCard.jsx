@@ -32,9 +32,9 @@ function DocumentCard({
     const data = await response.data
    
     if(data['status'] === 'success'){
-      console.log(JSON.parse(data['content']))
+      // console.log(JSON.parse(data['content']))
       const delta = JSON.parse(data['content'])
-      console.log(delta.ops)
+      // console.log(delta.ops)
 
       const convertor = new QuillDeltaToHtmlConverter(delta.ops, {});
       const html = convertor.convert()

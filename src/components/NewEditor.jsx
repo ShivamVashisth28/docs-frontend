@@ -129,7 +129,7 @@ export default function NewEditor({setConnectedUsers}) {
     const colorMap = {}; // Store colors for each user
   
     const cursorHandler = ({ range, userName }) => {
-      console.log(userName)
+      // console.log(userName)
       
       if (range) {
         // Assign a color if not already assigned
@@ -137,10 +137,10 @@ export default function NewEditor({setConnectedUsers}) {
           colorMap[userName] = generateRandomColor();
         }
         const userColor = colorMap[userName];
-        console.log(colorMap)
+        // console.log(colorMap)
         
         // Create or update the cursor
-        console.log(`Creating cursor for ${userName} at range:`, range);
+        // console.log(`Creating cursor for ${userName} at range:`, range);
         cursors.createCursor(userName, userName, userColor);
         cursors.moveCursor(userName, range);
       }

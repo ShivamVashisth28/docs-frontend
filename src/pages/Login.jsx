@@ -32,8 +32,8 @@ function Login() {
 
     setIsUserLoggedIn(true)
     navigate("/documents");
-    console.log(data['message']);
-    console.log(data['status']);
+    // console.log(data['message']);
+    // console.log(data['status']);
     
   };
 

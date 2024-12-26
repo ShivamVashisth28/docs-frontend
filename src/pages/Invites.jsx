@@ -12,7 +12,7 @@ function Invites() {
     const setAccess = async ()=>{
         const response = await axios.post(`${URL}/document/inviteCode?documentId=${documentId}&inviteCode=${inviteCode}`, {}, {withCredentials:true})
         const data = await response.data
-        console.log(data)
+        // console.log(data)
         setMessage(data['message'])        
     }
 
