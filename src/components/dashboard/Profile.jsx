@@ -18,8 +18,11 @@ function Profile() {
     const getUserDetails = async ()=>{
         const response = await axios.get(`${URL}/user/getUserDetails`, {withCredentials:true});
         const data = await response.data
-        setProfileSymbol(data['user']['name'].toUpperCase())
-        setUserData(data["user"])
+        if(data['user']){
+            setProfileSymbol(data['user']['name'].toUpperCase())
+            setUserData(data["user"])
+        }
+        
         
     }
 
