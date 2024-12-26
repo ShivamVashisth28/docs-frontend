@@ -18,7 +18,7 @@
     ["clean"],
   ]
 
-  export default function NewEditor({setConnectedUsers}) {
+  export default function NewEditor({userType ,setConnectedUsers}) {
     const { documentId } = useParams()
     const [socket, setSocket] = useState()
     const [quill, setQuill] = useState()
@@ -61,7 +61,11 @@
         }else{
           quill.setContents()
         }
-        quill.enable()
+        if(userType === 'viewer'){
+
+        }else{
+          quill.enable()
+        }
       })
 
     }, [socket, quill, documentId, name])
