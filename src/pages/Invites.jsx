@@ -1,6 +1,7 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { URL } from '../utils/backendUrl.js'
 
 function Invites() {
     const {documentId, inviteCode} = useParams()
@@ -9,7 +10,7 @@ function Invites() {
 
 
     const setAccess = async ()=>{
-        const response = await axios.post(`http://localhost:5000/document/inviteCode?documentId=${documentId}&inviteCode=${inviteCode}`, {}, {withCredentials:true})
+        const response = await axios.post(`${URL}/document/inviteCode?documentId=${documentId}&inviteCode=${inviteCode}`, {}, {withCredentials:true})
         const data = await response.data
         console.log(data)
         setMessage(data['message'])        

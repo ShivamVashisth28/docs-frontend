@@ -7,6 +7,7 @@ import axios from "axios"
 import { toast } from "react-toastify"
 import QuillCursors from 'quill-cursors';
 Quill.register("modules/cursors", QuillCursors);
+import { URL } from '../utils/backendUrl.js'
 
 const TOOLBAR_OPTIONS = [ 
   [{ header: [1, 2, 3, 4, 5, 6, false] }],
@@ -29,7 +30,7 @@ export default function NewEditor({setConnectedUsers}) {
 
 
   const setUserName = async () => {
-      const response = await axios.get("http://localhost:5000/user/getUserDetails", {withCredentials: true})
+      const response = await axios.get(`${URL}/user/getUserDetails`, {withCredentials: true})
       const data = await response.data
 
       if(data['status'] == 'success') {
@@ -43,7 +44,7 @@ export default function NewEditor({setConnectedUsers}) {
   },[])
 
   useEffect(() => {
-    const s = io("http://localhost:5000")
+    const s = io(URL)
     setSocket(s)
     
 
@@ -74,7 +75,7 @@ export default function NewEditor({setConnectedUsers}) {
     if(quill == null) return
     const content = JSON.stringify(quill.getContents())
     if(content == "") return
-    const response = await axios.post(`http://localhost:5000/document/content?documentId=${documentId}`, {content})
+    const response = await axios.post(`${URL}/document/content?documentId=${documentId}`, {content})
     const data = response.data
     // console.log(data)
 

@@ -4,6 +4,7 @@ import userState from '../atoms/userStateAtom';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
+import { URL } from '../utils/backendUrl.js';
 
 function Login() {
 
@@ -15,7 +16,7 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    const response = await axios.post('http://localhost:5000/user/login', {
+    const response = await axios.post(`${URL}/user/login`, {
       username,
       password
     },{

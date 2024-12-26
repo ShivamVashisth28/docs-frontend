@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import { useRecoilState } from 'recoil';
 import userState from '../atoms/userStateAtom';
+import { URL } from '../utils/backendUrl.js';
 
 function Signup() {
 
@@ -17,9 +18,9 @@ function Signup() {
   const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
-    
+
     e.preventDefault();
-    const response = await axios.post("http://localhost:5000/user/signup", {
+    const response = await axios.post(`${URL}/user/signup`, {
       name,
       email,
       username,

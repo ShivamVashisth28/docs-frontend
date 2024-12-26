@@ -1,5 +1,6 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import { URL } from '../../utils/backendUrl.js'
 
 function Search({setDocuments}) {
 
@@ -8,7 +9,7 @@ function Search({setDocuments}) {
   const [isInputEmpty, setIsInputEmpty] = useState(true)
 
   const getDocumentsFromSearch = async () => {
-    const response = await axios.get(`http://localhost:5000/user/getUserDocuments/${keyword.trim()}`, {withCredentials: true, params:{ keyword}})
+    const response = await axios.get(`${URL}/user/getUserDocuments/${keyword.trim()}`, {withCredentials: true, params:{ keyword}})
     const data = await response.data
     
     if(data['status'] === 'Success'){
@@ -24,7 +25,7 @@ function Search({setDocuments}) {
   }
 
   const getAllDcos = async () => {
-    const response = await axios.get("http://localhost:5000/user/getUserDocuments", {withCredentials:true})
+    const response = await axios.get(`${URL}/user/getUserDocuments`, {withCredentials:true})
     const data = await response.data
     if(data['status'] === 'success'){
       setDocuments(data['documents']);

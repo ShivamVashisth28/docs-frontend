@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
+import { URL } from '../../utils/backendUrl.js';
 
 function CreateNewDocument() {
 
@@ -14,7 +15,7 @@ function CreateNewDocument() {
           toast.error("Enter Document Name")
           return
       }
-      const response = await axios.post('http://localhost:5000/document/create', {
+      const response = await axios.post(`${URL}/document/create`, {
         title: documentName
       },{
         withCredentials:true

@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import userState from '../atoms/userStateAtom';
 import axios from 'axios';
+import { URL } from '../utils/backendUrl.js';
 
 function Dashboard() {
 
@@ -13,7 +14,7 @@ function Dashboard() {
   const [documents, setDocuments] = useState([])
   
   const getDocuments = async () => {
-      const response = await axios.get("http://localhost:5000/user/getUserDocuments", {withCredentials:true})
+      const response = await axios.get(`${URL}/user/getUserDocuments`, {withCredentials:true})
       const data = await response.data
    
       setDocuments(data['documents'])

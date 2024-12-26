@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import { URL } from '../../utils/backendUrl.js'
 
 function Menu({setDocumentName, userType}) {
     const [isOpen, setIsOpen] = useState(false)
@@ -58,7 +59,7 @@ function Menu({setDocumentName, userType}) {
     }
 
     const renameDocument = async () => {
-        const resposne = await axios.post(`http://localhost:5000/document/rename?documentId=${documentId}`, {
+        const resposne = await axios.post(`${URL}/document/rename?documentId=${documentId}`, {
             newTitle
         })
         const data = resposne.data
@@ -71,7 +72,7 @@ function Menu({setDocumentName, userType}) {
     }
 
     const deleteDocument = async () => {
-        const response = await axios.delete(`http://localhost:5000/document/delete?documentId=${documentId}`, {withCredentials: true})
+        const response = await axios.delete(`${URL}/document/delete?documentId=${documentId}`, {withCredentials: true})
         const data = response.data
         if(data['status'] != 'success'){
             toast.error(data['message'])
@@ -84,7 +85,7 @@ function Menu({setDocumentName, userType}) {
     }
 
     const getInviteLink = async () => {
-        const response = await axios.get(`http://localhost:5000/document/inviteCode?documentId=${documentId}&accessType=${shareLinkType}`, {withCredentials:true})
+        const response = await axios.get(`${URL}/document/inviteCode?documentId=${documentId}&accessType=${shareLinkType}`, {withCredentials:true})
         const data = await response.data
 
         if(data['status'] != 'success'){
@@ -97,7 +98,7 @@ function Menu({setDocumentName, userType}) {
     }
 
     const setFinalInviteLink = () =>{
-        const link = `http://localhost:5173/invite/${documentId}/${inviteCode}`
+        const link = `https://docs-frontend-opal.vercel.app/invite/${documentId}/${inviteCode}`
         setInviteLink(link)
     }
 

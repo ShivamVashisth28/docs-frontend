@@ -5,6 +5,7 @@ import Navbar from '../components/document/Navbar'
 import axios from 'axios'
 import { useRecoilState } from 'recoil'
 import userState from '../atoms/userStateAtom'
+import { URL } from '../utils/backendUrl.js'
 
 
 function Document() {
@@ -20,7 +21,7 @@ function Document() {
     const navigate = useNavigate()
 
     const setName = async () => {
-        const response = await axios.get(`http://localhost:5000/document/getTitle?documentId=${documentId}`)
+        const response = await axios.get(`${URL}/document/getTitle?documentId=${documentId}`)
         const data = await response.data
         if(data['status'] === 'Error'){
             navigate('/documents')
@@ -29,7 +30,7 @@ function Document() {
     }
 
     const getUserType = async () => {
-        const response = await axios.get(`http://localhost:5000/document/userType?documentId=${documentId}`, {withCredentials:true})
+        const response = await axios.get(`${URL}/document/userType?documentId=${documentId}`, {withCredentials:true})
         const data = await response.data
         if(data['status'] === 'success'){
 

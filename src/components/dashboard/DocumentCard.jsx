@@ -2,6 +2,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import  {QuillDeltaToHtmlConverter}  from 'quill-delta-to-html'
+import { URL } from '../../utils/backendUrl.js'
 
 
 function DocumentCard({
@@ -15,7 +16,7 @@ function DocumentCard({
 
 
   const getTitle = async ()=>{
-    const response = await axios.get(`http://localhost:5000/document/getTitle?documentId=${documentId}`)
+    const response = await axios.get(`${URL}/document/getTitle?documentId=${documentId}`)
     const data = response.data
     if(data["status"] == 'success'){
       setTitle(data['title'])
@@ -27,7 +28,7 @@ function DocumentCard({
   }
 
   const getContent = async () => {
-    const response = await axios.get(`http://localhost:5000/document/content?documentId=${documentId}`)
+    const response = await axios.get(`${URL}/document/content?documentId=${documentId}`)
     const data = await response.data
    
     if(data['status'] === 'success'){

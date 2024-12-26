@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react'
 import { useRecoilState } from 'recoil'
 import userState from '../../atoms/userStateAtom'
 import { useNavigate } from 'react-router-dom'
+import { URL } from '../../utils/backendUrl.js'
+
 
 function Profile() {
     
@@ -12,8 +14,9 @@ function Profile() {
     const [profileSymbol, setProfileSymbol] = useState('')
     const navigate = useNavigate()
 
+
     const getUserDetails = async ()=>{
-        const response = await axios.get("http://localhost:5000/user/getUserDetails", {withCredentials:true});
+        const response = await axios.get(`${URL}/user/getUserDetails`, {withCredentials:true});
         const data = await response.data
         setProfileSymbol(data['user']['name'].toUpperCase())
         setUserData(data["user"])
@@ -21,7 +24,7 @@ function Profile() {
     }
 
     const handleLogout = async () => {
-        const response = await axios.get("http://localhost:5000/user/getUserDetails", {withCredentials:true})
+        const response = await axios.get(`${URL}/user/getUserDetails`, {withCredentials:true})
         const data = await response.data
         if(data['status'] === 'success'){
             setIsUserLoggedIn(false)
