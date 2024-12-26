@@ -45,7 +45,7 @@ function Dashboard() {
               ))
             }
             {
-              documents.length === 0 && 
+              documents?.length === 0 && 
                 <div className='text-xl col-span-2 tracking-wide'>
                   No documents !! Start By  Creating One ;)
                 </div>
