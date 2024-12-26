@@ -39,7 +39,7 @@ function Dashboard() {
         <Navbar setDocuments={setDocuments}/>
         <div className='pt-10 h-full grid lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-2 px-28 overflow-auto  '>
             {
-              documents.map((document, index)=>(
+              documents?.map((document, index)=>(
                 <DocumentCard key={index} documentId={document['documentId']} role={document['role']}/>
               ))
             }
