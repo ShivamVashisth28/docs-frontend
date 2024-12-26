@@ -33,8 +33,11 @@ function DocumentCard({
       >
         <div className='h-[80%] bg-gray-100 rounded-t-md'></div>
         <div className='h-[30%] flex flex-col pl-2 pt-1'>
-            <div>Title : <span className='italic'>{title}</span></div>
-            <div>Role : <span className='italic'>{role}</span></div>
+            {/* <div>Title : <span className='italic'>{title}</span></div>
+            <div>Role : <span className='italic'>{role}</span></div> */}
+
+            <div className='flex justify-center text-2xl italic'>{title}</div>
+            <div className='flex justify-center text-sm italic'>{role}</div>
         </div>
     </div>
 
