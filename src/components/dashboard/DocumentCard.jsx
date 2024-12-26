@@ -28,13 +28,13 @@ function DocumentCard({
   })
   return (
     <div 
-        className='m-2 h-[14rem]  flex flex-col bg-blue-300 shadow-lg rounded-md hover:shadow-sm cursor-pointer'
+        className='m-2 h-[14rem]  flex flex-col bg-blue-300 shadow-xl rounded-md hover:shadow-md cursor-pointer'
         onClick={()=>navigate(`/document/${documentId}`)}
       >
         <div className='h-[80%] bg-gray-100 rounded-t-md'></div>
-        <div className='h-[30%] flex flex-col pl-2'>
-            <div>title : {title}</div>
-            <div>role : {role}</div>
+        <div className='h-[30%] flex flex-col pl-2 pt-1'>
+            <div>Title : <span className='italic'>{title}</span></div>
+            <div>Role : <span className='italic'>{role}</span></div>
         </div>
     </div>
 
