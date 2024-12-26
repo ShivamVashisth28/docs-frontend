@@ -16,8 +16,9 @@ function Dashboard() {
   const getDocuments = async () => {
       const response = await axios.get(`${URL}/user/getUserDocuments`, {withCredentials:true})
       const data = await response.data
-   
-      setDocuments(data['documents'])
+      if(data['dcouments']){
+        setDocuments(data['documents'])
+      }
   
   }
 
