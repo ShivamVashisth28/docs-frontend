@@ -93,8 +93,7 @@ function Menu({setDocumentName, userType}) {
         else{
             setInviteCode(data['inviteCode'])
         }
-        console.log(data)
-
+    
     }
 
     const setFinalInviteLink = () =>{

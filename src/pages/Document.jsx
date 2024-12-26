@@ -11,6 +11,7 @@ function Document() {
     
     const {documentId} = useParams()
     
+    const [connectedUser, setConnectedUsers] = useState([])
 
     const [documentName, setDocumentName] = useState("")
     const [isUserLoggedIn, setIsUserLoggedIn] = useRecoilState(userState)
@@ -30,12 +31,9 @@ function Document() {
     const getUserType = async () => {
         const response = await axios.get(`http://localhost:5000/document/userType?documentId=${documentId}`, {withCredentials:true})
         const data = await response.data
-        console.log(data['message'])
-        console.log(data)
         if(data['status'] === 'success'){
 
             setUserType(data['userType'])
-            console.log(data)
         } else {
             if(userType === 'none'){
                 navigate("/")
@@ -61,8 +59,8 @@ function Document() {
 
     return (
     <div className='flex flex-col items-center'>
-        <Navbar documentTitle={documentName} setDocumentName={setDocumentName} userType={userType} />
-        <NewEditor userType={userType} />
+        <Navbar documentTitle={documentName} setDocumentName={setDocumentName} userType={userType} connectedUser={connectedUser} />
+        <NewEditor  setConnectedUsers = {setConnectedUsers} />
     </div>
     )
 }

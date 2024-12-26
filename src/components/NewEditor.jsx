@@ -18,10 +18,27 @@
     ["clean"],
   ]
 
-  export default function NewEditor() {
+  export default function NewEditor({setConnectedUsers}) {
     const { documentId } = useParams()
     const [socket, setSocket] = useState()
     const [quill, setQuill] = useState()
+    const [name, setName] = useState("")
+    
+
+
+    const setUserName = async () => {
+        const response = await axios.get("http://localhost:5000/user/getUserDetails", {withCredentials: true})
+        const data = await response.data
+
+        if(data['status'] == 'success') {
+          
+          setName(data['user']['username'])
+        }
+    }
+
+    useEffect(()=>{
+      setUserName()
+    },[])
 
     useEffect(() => {
       const s = io("http://localhost:5000")
@@ -33,16 +50,21 @@
     }, [])
 
     useEffect(() => {
-      if (socket == null || quill == null) return
-      socket.emit("get-document", documentId)
+      if (socket == null || quill == null || name == "") return
+      
+      
+      socket.emit("get-document", documentId, name)
 
       socket.once("load-document", document => {
-       
-        quill.setContents(JSON.parse(document))
+        if(document){
+          quill.setContents(JSON.parse(document))
+        }else{
+          quill.setContents()
+        }
         quill.enable()
       })
 
-    }, [socket, quill, documentId])
+    }, [socket, quill, documentId, name])
 
     const saveContent = async ()=>{
 
@@ -51,6 +73,7 @@
       if(content == "") return
       const response = await axios.post(`http://localhost:5000/document/content?documentId=${documentId}`, {content})
       const data = response.data
+      // console.log(data)
 
       if(data['status'] !== 'success'){
         toast.error(data['message'])
@@ -97,6 +120,20 @@
       }
     }, [socket, quill])
 
+    useEffect(() => {
+      if (socket == null) return;
+  
+      const userHandler = (users) => {
+        setConnectedUsers(users.filter(user => user.documentId === documentId)); // Filter by document
+      };
+  
+      socket.on('get-users', userHandler);
+  
+      return () => {
+        socket.off('get-users', userHandler);
+      };
+    }, [socket, documentId]);
+
     const wrapperRef = useCallback(async wrapper => {
       if (wrapper == null) return
 
@@ -111,5 +148,6 @@
       q.setText("loading")
       setQuill(q)
     }, [])
+
     return <div className="container" ref={wrapperRef}></div>
   }

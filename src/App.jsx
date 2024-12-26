@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Landing from './pages/Landing'
 import PageNotFound from './pages/PageNotFound'
@@ -6,14 +6,9 @@ import Login from './pages/Login'
 import Signup from './pages/Signup'
 import Dashboard from './pages/Dashboard'
 import Document from './pages/Document'
-import userState from './atoms/userStateAtom'
-import { useRecoilState } from 'recoil'
 import Invites from './pages/Invites'
-import Socket from './pages/Socket'
 
 function App() {
-
-  const [isUserLoggedIn, setIsUserLoggedIn] = useRecoilState(userState)
 
   return (
     <div>
@@ -25,7 +20,6 @@ function App() {
             <Route path='/signup' element={<Signup />} />
             <Route path='/document/:documentId' element={<Document />} />
             <Route path='/invite/:documentId/:inviteCode' element={<Invites />} />
-            <Route path='/socket' element={< Socket/>} />
             <Route path='*' element={<PageNotFound />} />
           </Routes>
       </BrowserRouter>
