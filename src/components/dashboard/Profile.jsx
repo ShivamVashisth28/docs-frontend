@@ -59,7 +59,7 @@ function Profile() {
 
                     <div className='flex'>
                         <div className='pr-1'>Name : </div>
-                        <div>{userData['name'][0].toUpperCase() + userData['name'].slice(1).toLowerCase()}</div>
+                        <div>{ profileSymbol && userData['name'][0].toUpperCase() + userData['name'].slice(1).toLowerCase()}</div>
                     </div>
 
                     <div className='flex italic'>
