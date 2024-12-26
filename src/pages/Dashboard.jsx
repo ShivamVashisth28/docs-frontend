@@ -19,6 +19,7 @@ function Dashboard() {
       if(data['dcouments']){
         setDocuments(data['documents'])
       }
+      console.log(data)
   
   }
 
