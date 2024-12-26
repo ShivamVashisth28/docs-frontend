@@ -60,7 +60,7 @@ function Document() {
     return (
     <div className='flex flex-col items-center'>
         <Navbar documentTitle={documentName} setDocumentName={setDocumentName} userType={userType} connectedUser={connectedUser} />
-        <NewEditor  setConnectedUsers = {setConnectedUsers} />
+        <NewEditor userType={userType}  setConnectedUsers = {setConnectedUsers} />
     </div>
     )
 }
