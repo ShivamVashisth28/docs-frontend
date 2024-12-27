@@ -34,7 +34,7 @@ function Document() {
         const data = await response.data
         if(data['status'] === 'success'){
             console.log("success");
-            console.log('data')
+            console.log(data)
             setUserType(data['userType'])
         } else {
             if(userType === 'none'){
