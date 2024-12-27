@@ -21,7 +21,7 @@ const TOOLBAR_OPTIONS = [
   ["clean"],
 ]
 
-export default function NewEditor({setConnectedUsers}) {
+export default function NewEditor({setConnectedUsers, userType}) {
   const { documentId } = useParams()
   const [socket, setSocket] = useState()
   const [quill, setQuill] = useState()
@@ -65,7 +65,9 @@ export default function NewEditor({setConnectedUsers}) {
       }else{
         quill.setContents()
       }
-      quill.enable()
+      if(userType !== 'viewer'){
+        quill.enable()
+      }
     })
 
   }, [socket, quill, documentId, name])
