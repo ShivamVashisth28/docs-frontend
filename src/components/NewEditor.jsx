@@ -78,7 +78,7 @@ export default function NewEditor({setConnectedUsers, userType}) {
     if(quill == null) return
     const content = JSON.stringify(quill.getContents())
     if(content == "") return
-    console.log({content, name});
+    // console.log({content, name}); // logging the saving data
     const response = await axios.post(`${URL}/document/content?documentId=${documentId}`, {content})
     const data = response.data
     // console.log(data)

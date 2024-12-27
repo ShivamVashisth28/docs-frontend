@@ -54,7 +54,7 @@ function Document() {
 
     useEffect(()=>{
         getUserType()
-    })
+    },[])
 
     
 
