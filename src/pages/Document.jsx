@@ -33,8 +33,6 @@ function Document() {
         const response = await axios.get(`${URL}/document/userType?documentId=${documentId}`, {withCredentials:true})
         const data = await response.data
         if(data['status'] === 'success'){
-            console.log("success");
-            console.log(data)
             setUserType(data['userType'])
         } else {
             if(userType === 'none'){
@@ -62,7 +60,7 @@ function Document() {
     return (
     <div className='flex flex-col items-center'>
         <Navbar documentTitle={documentName} setDocumentName={setDocumentName} userType={userType} connectedUser={connectedUser} />
-        <NewEditor userType={userType}  setConnectedUsers = {setConnectedUsers} />
+        { userType !== 'none' && <NewEditor userType={userType}  setConnectedUsers = {setConnectedUsers} />}
     </div>
     )
 }
