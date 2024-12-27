@@ -66,6 +66,7 @@ export default function NewEditor({setConnectedUsers, userType}) {
         quill.setContents()
       }
       if(userType && userType !== 'viewer'){
+        console.log(userType)
         quill.enable()
       }
     })
