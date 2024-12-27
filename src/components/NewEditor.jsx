@@ -75,6 +75,7 @@ export default function NewEditor({setConnectedUsers}) {
     if(quill == null) return
     const content = JSON.stringify(quill.getContents())
     if(content == "") return
+    if(content == "loading...") return
     const response = await axios.post(`${URL}/document/content?documentId=${documentId}`, {content})
     const data = response.data
     // console.log(data)
@@ -234,7 +235,7 @@ export default function NewEditor({setConnectedUsers}) {
       
     })
     q.disable()
-    // q.setText("loading")
+    q.setText("loading...")
     setQuill(q)
   }, [])
 
