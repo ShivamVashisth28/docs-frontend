@@ -65,7 +65,7 @@ export default function NewEditor({setConnectedUsers, userType}) {
       }else{
         quill.setContents()
       }
-      if(userType !== 'viewer'){
+      if(userType && userType !== 'viewer'){
         quill.enable()
       }
     })
@@ -97,7 +97,7 @@ export default function NewEditor({setConnectedUsers, userType}) {
     return () => {
       clearInterval(interval)
     }
-  }, [socket, quill])
+  }, [socket, quill, name])
 
 
   useEffect(() => {
@@ -111,7 +111,7 @@ export default function NewEditor({setConnectedUsers, userType}) {
     return () => {
       socket.off("receive-changes", handler)
     }
-  }, [socket, quill, name])
+  }, [socket, quill])
 
   // CURSORS 
 
