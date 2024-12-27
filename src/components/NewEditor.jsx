@@ -76,6 +76,7 @@ export default function NewEditor({setConnectedUsers}) {
     const content = JSON.stringify(quill.getContents())
     if(content == "") return
     if(content == "loading...") return
+    console.log({content, name});
     const response = await axios.post(`${URL}/document/content?documentId=${documentId}`, {content})
     const data = response.data
     // console.log(data)
