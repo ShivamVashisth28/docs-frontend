@@ -77,7 +77,6 @@ export default function NewEditor({setConnectedUsers, userType}) {
     if(quill == null) return
     const content = JSON.stringify(quill.getContents())
     if(content == "") return
-    if(content == "loading...") return
     console.log({content, name});
     const response = await axios.post(`${URL}/document/content?documentId=${documentId}`, {content})
     const data = response.data
@@ -89,7 +88,7 @@ export default function NewEditor({setConnectedUsers, userType}) {
   }
 
   useEffect(() => {
-    if (socket == null || quill == null) return
+    if (socket == null || quill == null || !name) return
 
     const interval = setInterval(() => {
       saveContent()
@@ -112,7 +111,7 @@ export default function NewEditor({setConnectedUsers, userType}) {
     return () => {
       socket.off("receive-changes", handler)
     }
-  }, [socket, quill])
+  }, [socket, quill, name])
 
   // CURSORS 
 
