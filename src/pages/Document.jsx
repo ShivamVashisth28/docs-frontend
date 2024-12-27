@@ -33,7 +33,7 @@ function Document() {
         const response = await axios.get(`${URL}/document/userType?documentId=${documentId}`, {withCredentials:true})
         const data = await response.data
         if(data['status'] === 'success'){
-
+            console.log("success");
             setUserType(data['userType'])
         } else {
             if(userType === 'none'){
@@ -54,7 +54,7 @@ function Document() {
 
     useEffect(()=>{
         getUserType()
-    },[])
+    },[userType])
 
     
 
