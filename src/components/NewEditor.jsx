@@ -234,7 +234,7 @@ export default function NewEditor({setConnectedUsers}) {
       
     })
     q.disable()
-    q.setText("loading")
+    // q.setText("loading")
     setQuill(q)
   }, [])
 
