@@ -93,6 +93,9 @@ function Menu({setDocumentName, userType}) {
         }
         else{
             setInviteCode(data['inviteCode'])
+            console.log(inviteCode)
+            setInviteCode(prev => encodeURIComponent(prev));
+            console.log(inviteCode)
         }
     
     }
