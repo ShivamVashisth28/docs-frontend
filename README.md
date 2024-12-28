@@ -2,6 +2,10 @@
 
 Docs is a modern, user-friendly, real-time document collaboration platform. It allows multiple users to edit and share documents simultaneously, with features designed to enhance productivity and teamwork.
 
+* Frontend for Docs App
+* Backend : [https://github.com/ShivamVashisth28/docs-backend](https://github.com/ShivamVashisth28/docs-backend)
+* deployed version : https://docs-frontend-opal.vercel.app/
+
 ---
 
 ## Features
